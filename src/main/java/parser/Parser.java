@@ -1,6 +1,6 @@
 package parser;
 
-import parser.model.Entity;
+import parser.model.ParsedData;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,7 +13,7 @@ import java.util.List;
 
 class Parser {
 
-    List<Entity> parse() {
+    List<ParsedData> parse() {
 
         String csvFile = "src/main/resources/test_case.csv";
         String csvSplitBy = ";";
@@ -21,7 +21,7 @@ class Parser {
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
 
             String line;
-            List<Entity> entitiesList = new ArrayList<>();
+            List<ParsedData> entitiesList = new ArrayList<>();
 
             //Skip header
             br.readLine();
@@ -30,7 +30,7 @@ class Parser {
 
                 String[] entities = line.split(csvSplitBy);
 
-                entitiesList.add(new Entity(
+                entitiesList.add(new ParsedData(
                         entities[0],
                         entities[1],
                         entities[2],
