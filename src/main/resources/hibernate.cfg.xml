@@ -4,21 +4,20 @@
     <session-factory>
 
         <property name="hibernate.dialect">
-            org.hibernate.dialect.PostgreSQL10Dialect
+            org.hibernate.dialect.MySQLDialect
         </property>
-
-        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
 
         <property name="hibernate.connection.url">
-            jdbc:postgresql://127.0.0.1:5432/parsed
+            jdbc:mysql://localhost:3306/parsed?serverTimezone=UTC
         </property>
+
         <property name="hibernate.connection.username">
-            parser_robot
+            sqluser
         </property>
+
         <property name="hibernate.connection.password">
             Password123
         </property>
-
 
     </session-factory>
 </hibernate-configuration>

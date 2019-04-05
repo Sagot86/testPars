@@ -16,4 +16,12 @@ public class ParsedDataService {
     public List<ParsedData> getFirst() {
         return parsedDataRepo.getFirst();
     }
+
+    public List<ParsedData> getSecond() {
+        return parsedDataRepo.getSecond();
+    }
+
+    public List<ParsedData> getThird() {
+        return parsedDataRepo.getThird();
+    }
 }

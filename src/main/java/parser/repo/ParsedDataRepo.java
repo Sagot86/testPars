@@ -5,6 +5,7 @@ import org.hibernate.Transaction;
 import parser.model.ParsedData;
 import parser.utils.HibernateSessionFactoryUtil;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -47,11 +48,14 @@ public class ParsedDataRepo {
             for (int i = 0; i < data.size(); i++) {
                 session.save(data.get(i));
 
-                if (i % 40 == 0) {
+                if (i % 20 == 0) {
                     session.flush();
                     session.clear();
                 }
+
             }
+            session.flush();
+            session.clear();
             transaction.commit();
         }
     }
@@ -65,14 +69,36 @@ public class ParsedDataRepo {
 
     /**
      * Выборка значений по второму запросу
+     *
+     * SELECT * FROM parsed_data WHERE ssoid NOT IN
+     * (SELECT ssoid FROM parsed_data  WHERE data_subtype = 'send' or data_subtype = 'success' or data_subtype = 'after' or data_subtype = 'sent' or data_subtype = 'done')
+     * AND NOT data_subtype = 'start' AND NOT data_subtype = 'before' AND NOT data_subtype = ''
+     * order by ssoid;
+     *
      */
+    @SuppressWarnings("unchecked")
     public List<ParsedData> getSecond() {
-        return Collections.emptyList();
+        String select = "FROM ParsedData WHERE ssoid NOT IN" +
+                "(SELECT ssoid FROM ParsedData WHERE data_subtype = 'send' or data_subtype = 'success' or data_subtype = 'after' or data_subtype = 'sent' or data_subtype = 'done')" +
+                "AND NOT data_subtype = 'start' AND NOT data_subtype = 'before' AND NOT data_subtype = ''" +
+                "ORDER BY ssoid";
+        List<ParsedData> parsedData = (ArrayList<ParsedData>)openCurrentSession().createQuery(select).list();
+        closeCurrentSession();
+        return parsedData;
     }
+
+
 
     /**
      * Выборка значений по третьему запросу
+     *
+     * SELECT formid,count(formid) as count from parsed_data
+     * where not formid = ''
+     * group by formid
+     * order by count desc;
+     *
      */
+    @SuppressWarnings("unchecked")
     public List<ParsedData> getThird() {
         return Collections.emptyList();
     }
