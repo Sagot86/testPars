@@ -9,38 +9,40 @@ package parser;
  * В) Составить ТОП – 5 самых используемых форм.
  */
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import parser.model.ParsedData;
 import parser.service.ParsedDataService;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@SpringBootApplication
 public class Start {
 
     public static void main(String[] args) {
 
+        SpringApplication.run(Start.class, args);
+
+        parseCVS();
+
+    }
+
+    private static void parseCVS() {
+
         Parser parser = new Parser();
         ParsedDataService parsedDataService = new ParsedDataService();
 
-//        List<ParsedData> parsedData = new ArrayList<>(parser.parse());
-
         long start = System.currentTimeMillis();
+        System.out.println("Start parsing");
 
-//        parsedDataService.save(parsedData);
+        List<ParsedData> parsedData = new ArrayList<>(parser.parse());
 
+        System.out.println("Start upload");
 
+        parsedDataService.save(parsedData);
 
-        List<ParsedData> secondGet = parsedDataService.getSecond();
-
-        System.out.println(secondGet.get(0).getSsoid());
-        System.out.println(secondGet.get(secondGet.size() - 1).getSsoid());
-        System.out.println(secondGet.size());
-
-        System.out.println("time is " + (System.currentTimeMillis() - start));
-
-      //  System.out.println(parsedDataService.getFirst());
-
-
+        System.out.println("\n parsing time is " + (System.currentTimeMillis() - start));
 
     }
 }

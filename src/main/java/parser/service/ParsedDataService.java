@@ -4,6 +4,7 @@ import parser.model.ParsedData;
 import parser.repo.ParsedDataRepo;
 
 import java.util.List;
+import java.util.Map;
 
 public class ParsedDataService {
 
@@ -13,7 +14,7 @@ public class ParsedDataService {
         parsedDataRepo.save(parsedData);
     }
 
-    public List<ParsedData> getFirst() {
+    public List<Map<String, String>> getFirst() {
         return parsedDataRepo.getFirst();
     }
 
@@ -21,7 +22,7 @@ public class ParsedDataService {
         return parsedDataRepo.getSecond();
     }
 
-    public List<ParsedData> getThird() {
+    public List<Map<String, String>> getThird() {
         return parsedDataRepo.getThird();
     }
 }

@@ -9,9 +9,9 @@ import java.util.Date;
 public class ParsedData implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PARSE_SEQ")
-    //@SequenceGenerator(name="PARSE_SEQ", sequenceName="parser_sequence", allocationSize=1)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PARSE_SEQ")
+    @SequenceGenerator(name="PARSE_SEQ", sequenceName="parser_sequence", allocationSize=1)
     private long id;
 
     @Column

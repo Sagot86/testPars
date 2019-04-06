@@ -2,18 +2,16 @@ package parser.repo;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import parser.model.ParsedData;
 import parser.utils.HibernateSessionFactoryUtil;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class ParsedDataRepo {
 
     private org.hibernate.SessionFactory sessionFactory = HibernateSessionFactoryUtil.sessionFactory;
     private Session currentSession;
-    private Transaction currentTransaction;
 
     public ParsedDataRepo() {
     }
@@ -23,23 +21,12 @@ public class ParsedDataRepo {
         return currentSession;
     }
 
-    private Session openCurrentSessionWithTransaction() {
-        currentSession = sessionFactory.openSession();
-        currentTransaction = currentSession.beginTransaction();
-        return currentSession;
-    }
-
     private void closeCurrentSession() {
         currentSession.close();
     }
 
-    private void closeCurrentSessionWithTransaction() {
-        currentTransaction.commit();
-        currentSession.close();
-    }
-
     /**
-     * Вставка массива
+     * Вставка результа парсинга
      */
     public void save(List<ParsedData> data) {
         try (Session session = openCurrentSession()) {
@@ -52,7 +39,6 @@ public class ParsedDataRepo {
                     session.flush();
                     session.clear();
                 }
-
             }
             session.flush();
             session.clear();
@@ -61,19 +47,27 @@ public class ParsedDataRepo {
     }
 
     /**
-     * Выборка значений по первому запросу
+     *  Вывести список пользователей и используемых ими форм за последний час
+     *
+     *  (К сожалению, HQL не умеет в INTERVAL, а SQL я не хочу:
+     *
      */
-    public List<ParsedData> getFirst() {
-        return Collections.emptyList();
+    @SuppressWarnings("unchecked")
+    public List<Map<String, String>> getFirst() {
+        String select = "SELECT new Map(ssoid,formid) from ParsedData where " +
+                "not ssoid = '' and " +
+                "not formid = '' and " +
+                "date_part('hour', ymdh) >= (date_part('hour', current_timestamp) - 1) and " +
+                "date_part('hour', ymdh) <= date_part('hour', current_timestamp) " +
+                "ORDER BY ssoid";
+        List<Map<String, String>> maps = openCurrentSession().createQuery(select).list();
+        closeCurrentSession();
+        return maps;
     }
 
     /**
-     * Выборка значений по второму запросу
-     *
-     * SELECT * FROM parsed_data WHERE ssoid NOT IN
-     * (SELECT ssoid FROM parsed_data  WHERE data_subtype = 'send' or data_subtype = 'success' or data_subtype = 'after' or data_subtype = 'sent' or data_subtype = 'done')
-     * AND NOT data_subtype = 'start' AND NOT data_subtype = 'before' AND NOT data_subtype = ''
-     * order by ssoid;
+     *  Вывести список пользователей, которые начали активность на форме и не дошли до конца.
+     *  Например, для услуг grp dszn_* начальное состояние start, конечное состояние send. Вывести на каком шаге остановился.
      *
      */
     @SuppressWarnings("unchecked")
@@ -88,20 +82,19 @@ public class ParsedDataRepo {
     }
 
 
-
     /**
-     * Выборка значений по третьему запросу
      *
-     * SELECT formid,count(formid) as count from parsed_data
-     * where not formid = ''
-     * group by formid
-     * order by count desc;
+     *  Составить ТОП – 5 самых используемых форм.
      *
      */
     @SuppressWarnings("unchecked")
-    public List<ParsedData> getThird() {
-        return Collections.emptyList();
+    public List<Map<String, String>> getThird() {
+        String select = "SELECT new Map(formid, count(formid)) from ParsedData " +
+                "where not formid = '' " +
+                "group by formid " +
+                "order by count(formid) desc";
+        List<Map<String, String>> maps = openCurrentSession().createQuery(select).setMaxResults(5).list();
+        closeCurrentSession();
+        return maps;
     }
-
-
 }
