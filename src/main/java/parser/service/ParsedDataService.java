@@ -18,11 +18,11 @@ public class ParsedDataService {
         return parsedDataRepo.getFirst();
     }
 
-    public List<ParsedData> getSecond() {
+    public List<Map<String, String>> getSecond() {
         return parsedDataRepo.getSecond();
     }
 
-    public List<Map<String, String>> getThird() {
+    public List<Map<Object, Object>> getThird() {
         return parsedDataRepo.getThird();
     }
 }
