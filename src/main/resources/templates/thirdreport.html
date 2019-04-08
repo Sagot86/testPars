@@ -1,52 +1,50 @@
-
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <title> Json to table using Ajax Jquery getJSON</title>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
 </head>
 <body>
-<div class="container">
-    <div class="table-responsive">
-        <h1> Proyectos Axial</h1>
-        <br />
-        <table class="table table-bordered table-striped" id="proyecto_table">
-            <tr>
-                <th>id</th>
-                <th>name</th>
-                <th>sName</th>
-                <th>login</th>
-                <th>password</th>
-                <th>phone</th>
-                <th>email</th>
-            </tr>
-        </table>
-    </div>
+<center><h1>Top 5</h1></center>
+
+<p></p>
+
+<div class = "container">
+    <table class = "table table-bordered table  -striped table-hover" id="thetable">
+        <thead>
+        <tr>
+            <th><center>Form</center></th>
+            <th><center>UseCount</center></th>
+        </tr>
+        </thead>
+    </table>
+
 </div>
 
-</body>
-
-</html>
-<script>
-$(document).ready(function(){
-	$.getJSON("http://178.62.221.70:8080/users/1",
-        function(data){
-		var proyecto_data ='';
-		$.each(data, function(key, value){
-			proyecto_data += '<tr>';
-			proyecto_data += '<td>' +value.id+'</td>';
-			proyecto_data += '<td>' +value.name+'</td>';
-			proyecto_data += '<td>' +value.sName+'</td>';
-			proyecto_data += '<td>' +value.login+'</td>';
-			proyecto_data += '<td>' +value.password+'</td>';
-			proyecto_data += '<td>' +value.phone+'</td>';
-			proyecto_data += '<td>' +value.email+'</td>';
-			proyecto_data += '<tr>';
-		});
-		$('#proyecto_table').append(proyecto_data);
-	});
-});
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
 </script>
+
+<script>
+$.getJSON("http://localhost:8080/restresult/3", function(data){
+		var fields =[];
+		$.each(data, function(key, value){
+            fields.push("<tr>");
+            fields.push("<td id=''"+key+"''><center>"+value.Form+"</center></td>");
+            fields.push("<td id=''"+key+"''><center>"+value.UseCount+"</center></td>");
+            fields.push("</tr>");
+		});
+			$('#thetable').append(fields);
+	});
+</script>
+
+</body>
+</html>

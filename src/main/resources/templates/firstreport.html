@@ -1,46 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>FirstReport</title>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js.bootstrap.min.js"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
 </head>
 <body>
-<div class="container">
-    <div class="table-responsive">
-        <h1>GET TABLE MFka</h1>
-        <br />
+<center><h1>Top 5</h1></center>
 
-        table>
-        <tbody>
-        <tr>
-            <td>Ячейка 1</td>
-            <td>Ячейка 2</td>
-            <td>Ячейка 3</td>
-        </tr>
-        <tr>
-            <td>Ячейка 4</td>
-            <td>Ячейка 5</td>
-            <td>Ячейка 6</td>
-        </tr>
-        <tr>
-            <td>Ячейка 7</td>
-            <td>Ячейка 8</td>
-            <td>Ячейка 9</td>
-        </tr>
-        </tbody>
-        </table>
+<p></p>
 
+<div class = "container">
+    <table class = "table table-bordered table  -striped table-hover" id="thetable">
+        <thead>
+        <tr>
+            <th><center>UserID</center></th>
+            <th><center>FormName</center></th>
+        </tr>
+        </thead>
+    </table>
 
-    </div>
 </div>
 
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+</script>
+
+<script>
+$.getJSON("http://localhost:8080/restresult/2", function(data){
+		var fields =[];
+		$.each(data, function(key, value){
+            fields.push("<tr>");
+            fields.push("<td id=''"+key+"''><center>"+value.UserID+"</center></td>");
+            fields.push("<td id=''"+key+"''><center>"+value.FormName+"</center></td>");
+            fields.push("</tr>");
+		});
+			$('#thetable').append(fields);
+	});
+</script>
 
 </body>
 </html>
-
-<script>
-
-</script>

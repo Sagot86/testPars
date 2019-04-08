@@ -1,10 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>SecondReport</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
 </head>
 <body>
-<p>HALLO!111111</p>
+<center><h1>Top 5</h1></center>
+
+<p></p>
+
+<div class = "container">
+    <table class = "table table-bordered table  -striped table-hover" id="thetable">
+        <thead>
+        <tr>
+            <th><center>UserID</center></th>
+            <th><center>Step</center></th>
+        </tr>
+        </thead>
+    </table>
+
+</div>
+
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+</script>
+
+<script>
+$.getJSON("http://localhost:8080/restresult/2", function(data){
+		var fields =[];
+		$.each(data, function(key, value){
+            fields.push("<tr>");
+            fields.push("<td id=''"+key+"''><center>"+value.UserID+"</center></td>");
+            fields.push("<td id=''"+key+"''><center>"+value.Step+"</center></td>");
+            fields.push("</tr>");
+		});
+			$('#thetable').append(fields);
+	});
+</script>
+
 </body>
 </html>

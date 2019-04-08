@@ -1,5 +1,6 @@
 package parser.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import parser.service.ParsedDataService;
@@ -8,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 @org.springframework.web.bind.annotation.RestController
+
 @RequestMapping(path = "/restresult")
 public class ServiceController {
 
     private ParsedDataService parsedDataService = new ParsedDataService();
-
 
     @GetMapping(path = "/1")
     public List<Map<String, String>> getUsersAndFormsLastH() {
