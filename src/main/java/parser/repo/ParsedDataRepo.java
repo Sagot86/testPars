@@ -54,7 +54,7 @@ public class ParsedDataRepo {
      */
     @SuppressWarnings("unchecked")
     public List<Map<String, String>> getFirst() {
-        String select = "SELECT DISTINCT new Map(ssoid as UserID,formid as Form) from ParsedData where " +
+        String select = "SELECT new Map(ssoid as UserID,formid as FormName) from ParsedData where " +
                 "not ssoid = '' and " +
                 "not formid = '' and " +
                 "date_part('hour', ymdh) between (date_part('hour', current_timestamp) - 1) and date_part('hour', current_timestamp) " +

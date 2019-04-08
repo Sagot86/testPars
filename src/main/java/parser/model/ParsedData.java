@@ -8,10 +8,12 @@ import java.util.Date;
 @Table(name = "parsed_data")
 public class ParsedData implements Serializable {
 
+    private static final long serialVersionUID = -7049957706738879274L;
+
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PARSE_SEQ")
     @SequenceGenerator(name="PARSE_SEQ", sequenceName="parser_sequence", allocationSize=1)
+    @Column(name="id", unique=true, nullable=false)
     private long id;
 
     @Column

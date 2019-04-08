@@ -11,10 +11,6 @@ package parser;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import parser.model.ParsedData;
 import parser.service.ParsedDataService;
 
@@ -28,38 +24,28 @@ public class Start {
 
         SpringApplication.run(Start.class, args);
 
-        //parseCVS();
+        parseCSV();
 
     }
 
-    private static void parseCVS() {
+    private static void parseCSV() {
 
         Parser parser = new Parser();
         ParsedDataService parsedDataService = new ParsedDataService();
 
         long start = System.currentTimeMillis();
-        System.out.println("Start parsing");
+        System.out.println("\nStart parsing");
 
         List<ParsedData> parsedData = new ArrayList<>(parser.parse());
 
-        System.out.println("Start upload");
+        System.out.println("\nParsing complete. Time spent is " + (System.currentTimeMillis() - start));
+        start = System.currentTimeMillis();
+        System.out.println("\nStart upload");
 
         parsedDataService.save(parsedData);
 
-        System.out.println("\n parsing time is " + (System.currentTimeMillis() - start));
+        System.out.println("\nUpload complete. Time spent is " + (System.currentTimeMillis() - start));
+        System.out.println("\nReady for work!\n");
 
     }
-
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/restresult").allowedOrigins("http://localhost:8080");
-            }
-        };
-    }
-
-
-
 }
