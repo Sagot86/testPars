@@ -59,7 +59,9 @@ public class ParsedDataRepo {
                 "not formid = '' and " +
                 "date_part('hour', ymdh) between (date_part('hour', current_timestamp) - 1) and date_part('hour', current_timestamp) " +
                 "ORDER BY ssoid";
-        List<Map<String, String>> maps = openCurrentSession().createQuery(select).list();
+        List<Map<String, String>> maps = openCurrentSession()
+                .createQuery(select)
+                .list();
         closeCurrentSession();
         return maps;
     }
@@ -74,7 +76,9 @@ public class ParsedDataRepo {
                 "(SELECT ssoid FROM ParsedData WHERE data_subtype = 'send' or data_subtype = 'success' or data_subtype = 'after' or data_subtype = 'sent' or data_subtype = 'done' or data_subtype = '' )" +
                 "AND NOT data_subtype = 'start' AND NOT data_subtype = 'before' " +
                 "ORDER BY ssoid";
-        List<Map<String, String>> parsedData = openCurrentSession().createQuery(select).list();
+        List<Map<String, String>> parsedData = openCurrentSession()
+                .createQuery(select)
+                .list();
         closeCurrentSession();
         return parsedData;
     }
@@ -92,7 +96,10 @@ public class ParsedDataRepo {
                 "group by formid " +
                 "order by count(formid) desc";
 
-        List<Map<Object, Object>> maps = openCurrentSession().createQuery(select).setMaxResults(5).list();
+        List<Map<Object, Object>> maps = openCurrentSession()
+                .createQuery(select)
+                .setMaxResults(5)
+                .list();
         closeCurrentSession();
         return maps;
     }

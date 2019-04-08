@@ -14,7 +14,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import parser.model.ParsedData;
 import parser.service.ParsedDataService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
@@ -36,7 +35,7 @@ public class Start {
         long start = System.currentTimeMillis();
         System.out.println("\nStart parsing");
 
-        List<ParsedData> parsedData = new ArrayList<>(parser.parse());
+        List<ParsedData> parsedData = parser.parse();
 
         System.out.println("\nParsing complete. Time spent is " + (System.currentTimeMillis() - start));
         start = System.currentTimeMillis();
